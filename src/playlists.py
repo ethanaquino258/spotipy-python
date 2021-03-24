@@ -7,9 +7,11 @@ def userPlaylists():
     results = client.current_user_playlists()
 
     for idx, item in enumerate(results['items']):
-        collaborative = results['items'][idx]['collaborative']
-        playlistName = results['items'][idx]['name']
-        creator = results['items'][idx]['owner']['id']
+        playlistObject = results['items'][idx]
 
-        print(f'{idx}. Name: {playlistName} \nCreator: {creator} \nCollaborative: {collaborative}')
+        collaborative = playlistObject['collaborative']
+        playlistName = playlistObject['name']
+        creator = playlistObject['owner']['id']
+
+        print(f'Name: {playlistName}\nCreator: {creator}\nCollaborative: {collaborative}\n')
     exit()

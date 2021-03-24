@@ -15,15 +15,16 @@ def topTracks():
     }
 
     client = authCode("user-top-read")
-    try:
-        results = client.current_user_top_tracks(time_range=timeRange[timePicker])
-    except spotipy.client.SpotifyException as e:
-        print("===CLIENT ERROR===")
-        print(e)
+
+    results = client.current_user_top_tracks(time_range=timeRange[timePicker])
 
     for idx, item in enumerate(results['items']):
-        track = item['album']
-        print(idx, track['artists'][0]['name'], " – ", item['name'])
+        trackObject = item['album']
+
+        artist = trackObject['artists'][0]['name']
+        songName = item['name']
+
+        print(f'{idx + 1}. {artist} - {songName}')
     
     exit()
 
@@ -31,9 +32,13 @@ def savedTracks():
     client = authCode("user-library-read")
     results = client.current_user_saved_tracks()
 
-    for idx, item in enumerate(results['items']):
-        track = item['track']
-        print(idx, track['artists'][0]['name'], " – ", track['name'])
+    for item in results['items']:
+        trackObject = item['track']
+
+        songName = trackObject['name']
+        artist = trackObject['artists'][0]['name']
+
+        print(f'{artist} - {songName}')
     
     exit()
 
@@ -41,7 +46,12 @@ def currentTrack():
     client = authCode("user-read-playback-state")
     results = client.current_user_playing_track()
 
-    print(results['item']['artists'][0]['name'], " - ", results['item']['name'])
+    trackObject = results['item']
+
+    artist = trackObject['artists'][0]['name']
+    songName = trackObject['name']
+
+    print(f'{artist} - {songName}')
 
     exit()
 
@@ -50,9 +60,13 @@ def recentlyPlayedTracks():
     client = authCode("user-read-recently-played")
     results = client.current_user_recently_played()
 
-    for idx, item in enumerate(results['items']):
-        track = item['track']
-        print(idx, track['artists'][0]['name'], " – ", track['name'])
+    for item in results['items']:
+        trackObject = item['track']
+
+        artist = trackObject['artists'][0]['name']
+        songName = trackObject['name']
+
+        print(f'{artist} - {songName}')
 
     exit()
 

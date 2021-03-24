@@ -6,8 +6,12 @@ def savedAlbums():
 
     results = client.current_user_saved_albums()
 
-    for idx, item in enumerate(results['items']):
-        track = item['album']
-        print(idx, track['artists'][0]['name'], " – ", item['album']['name'])
-    
+    for item in results['items']:
+        albumObject = item['album']
+
+        artist = albumObject['artists'][0]['name']
+        albumName = albumObject['name']
+
+        print(f'{artist} - {albumName}')
+
     exit()

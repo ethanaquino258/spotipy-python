@@ -17,20 +17,37 @@ def topArtists():
     }
 
     results = client.current_user_top_artists(time_range=timeRange[timePicker])
-
+    
+    print("the popularity metric ranges from 0-100, w/ 100 as the highest level of popularity attainable")
+    
     for idx, item in enumerate(results['items']):
-        artist = results['items'][idx]['name']
-        print(f'{idx}. {artist}')
+        artistObject = results['items'][idx]
+
+        artist = artistObject['name']
+        genres = artistObject['genres']
+        followers = artistObject['followers']['total']
+        popularity = artistObject['popularity']
+
+
+        print(f'{artist}\nGenres: {genres}\nFollowers: {followers}\nPopularity: {popularity}\n')
     exit()
 
 def followedArtists():
     client = authCode("user-follow-read")
 
     results = client.current_user_followed_artists()
+    
+    print("the popularity metric ranges from 0-100, w/ 100 as the highest level of popularity attainable")
 
     for idx, item in enumerate(results['artists']['items']):
-        artist = results['artists']['items'][idx]['name']
-        print(f'{idx}. {artist}')
+        artistObject = results['artists']['items'][idx]
+
+        artist = artistObject['name']
+        genres = artistObject['genres']
+        followers = artistObject['followers']['total']
+        popularity = artistObject['popularity']
+
+        print(f'{artist}\nGenres: {genres}\nFollowers: {followers}\nPopularity: {popularity}\n')
 
     # TODO figure out why leaving ['items'] out of enumerate causes idx to only reach 5 instead of 20, something to do  with enumerate()
     # for idx, item in enumerate(results['artists']):
