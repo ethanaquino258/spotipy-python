@@ -10,8 +10,6 @@ def main():
     print("Hello!\nWelcome to my spotipy project")
 
     try:
-        client = authentication.authCode()
-        
         actionItem = input("""
         Enter the # of the action you wish to take
 
@@ -37,9 +35,14 @@ def main():
             "8": userPlaylists,
             "9": savedShows
         }
-        # print(actions[actionItem](client))
 
-        return actions[actionItem](client)
+        actions[actionItem]()
+
+        # right now the app seems to loop on itself as spotipy automatically assigns 127.0.0.1 as a local server, and i keep getting errors that the address is already in use
+        # ignore first part, address in use definitely occurs though
+        # somehow is solved by restarting computer and clearing safari cache. the former resets running processes and the latter allows you to hit the correct page
+        # address in use likely caused by vscode trying to add helpers (if u cancel this error will occur)
+
         
     except spotipy.client.SpotifyException as e:
         print("======ERROR======")

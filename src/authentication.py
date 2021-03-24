@@ -5,28 +5,30 @@ import os
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyOAuth
 
-def authCode():
+def authCode(scope):
     load_dotenv()
 
     clientID = os.getenv('SPOTIFY_CLIENT_ID')
     clientSecret = os.getenv('SPOTIFY_CLIENT_SECRET')
     redirect_URI = os.getenv('REDIRECT_URI')
-
-    # scope = "user-library-read user-read-recently-played user-top-read"
-    scope = "user-library-read user-top-read"
-        
-    # if len(sys.argv) > 1:
-    #     username = sys.argv[1]
-    # else:
-    #     print("Usage: %s username" % (sys.argv[0],))
-    #     sys.exit()
-
-    username = input("Enter username:")
-
-    token = util.prompt_for_user_token(
-        username, scope, clientID, clientSecret, redirect_URI
-    )
-
-    sp = spotipy.Spotify(auth=token)
     
+    # scope = "user-library-read user-read-recently-played user-top-read"
+
+    # username = input("Enter username:")
+
+    try:
+        # token = util.prompt_for_user_token(
+        #     username, scope, clientID, clientSecret, redirect_URI
+        # )
+
+        # sp = spotipy.Spotify(auth=token)
+
+        print(redirect_URI)
+
+        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=clientID, client_secret=clientSecret, redirect_uri=redirect_URI, scope=scope, username='aquinyo'))
+
+    except spotipy.client.SpotifyException as e:
+        print("====AUTH ERROR====")
+        print(e)
+        exit()
     return sp
