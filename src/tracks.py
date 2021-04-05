@@ -14,7 +14,7 @@ def topTracks():
         "3": "long_term"
     }
 
-    client = authCode("user-top-read")
+    client = authCode("user-top-read playlist-modify-public")
 
     results = client.current_user_top_tracks(limit=50,time_range=timeRange[timePicker])
 
@@ -22,7 +22,10 @@ def topTracks():
     results = client.next(results)
     tracks.extend(tracks)
 
+    uriList = []
+
     for idx, item in enumerate(tracks):
+        uriList.append(item['uri'])
         trackObject = item['album']
 
         artist = trackObject['artists'][0]['name']
@@ -30,6 +33,18 @@ def topTracks():
 
         print(f'{idx + 1}. {artist} - {songName}')
     
+    createOption = input("would you like to make this a playlist? y/n\n")
+
+    if createOption == "y":
+        playlistName = input("please enter a name for the playlist:\n")
+
+        user = client.me()
+        createResults = client.user_playlist_create(user['id'], playlistName)
+
+        newPlaylistID = createResults['id']
+
+        client.user_playlist_add_tracks(user['id'], newPlaylistID, uriList)
+
     exit()
 
 def savedTracks():
