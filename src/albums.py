@@ -6,12 +6,17 @@ def savedAlbums():
 
     results = client.current_user_saved_albums()
 
-    for item in results['items']:
-        albumObject = item['album']
+    while results['next']:
+        results = client.next(results)
+        albums = results['items']
+        for item in albums:
+            albumObject = item['album']
 
-        artist = albumObject['artists'][0]['name']
-        albumName = albumObject['name']
+            artist = albumObject['artists'][0]['name']
+            albumName = albumObject['name']
 
-        print(f'{artist} - {albumName}')
+            print(f'{artist} - {albumName}')
+        
+        albums.extend(results['items'])
 
     exit()

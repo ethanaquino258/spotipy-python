@@ -16,9 +16,13 @@ def topTracks():
 
     client = authCode("user-top-read")
 
-    results = client.current_user_top_tracks(time_range=timeRange[timePicker])
+    results = client.current_user_top_tracks(limit=50,time_range=timeRange[timePicker])
 
-    for idx, item in enumerate(results['items']):
+    tracks = results['items']
+    results = client.next(results)
+    tracks.extend(tracks)
+
+    for idx, item in enumerate(tracks):
         trackObject = item['album']
 
         artist = trackObject['artists'][0]['name']

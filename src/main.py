@@ -43,6 +43,7 @@ def main():
         # somehow is solved by restarting computer and clearing safari cache. the former resets running processes and the latter allows you to hit the correct page
         # address in use likely caused by vscode trying to add helpers (if u cancel this error will occur)
 
+        # next step is pagination
         
     except spotipy.client.SpotifyException as e:
         print("======ERROR======")
