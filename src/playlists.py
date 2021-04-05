@@ -6,12 +6,16 @@ def userPlaylists():
 
     results = client.current_user_playlists()
 
-    for idx, item in enumerate(results['items']):
-        playlistObject = results['items'][idx]
+    while results['next']:
+        results = client.next(results)
+        playlists = results['items']
+        for idx, item in enumerate(playlists):
+            playlistObject = results['items'][idx]
 
-        collaborative = playlistObject['collaborative']
-        playlistName = playlistObject['name']
-        creator = playlistObject['owner']['id']
+            collaborative = playlistObject['collaborative']
+            playlistName = playlistObject['name']
+            creator = playlistObject['owner']['id']
 
-        print(f'Name: {playlistName}\nCreator: {creator}\nCollaborative: {collaborative}\n')
+            print(f'Name: {playlistName}\nCreator: {creator}\nCollaborative: {collaborative}\n')
+            print(f'Total Playlists: {idx}')
     exit()
