@@ -37,13 +37,6 @@ def main():
         }
 
         actions[actionItem]()
-
-        # right now the app seems to loop on itself as spotipy automatically assigns 127.0.0.1 as a local server, and i keep getting errors that the address is already in use
-        # ignore first part, address in use definitely occurs though
-        # somehow is solved by restarting computer and clearing safari cache. the former resets running processes and the latter allows you to hit the correct page
-        # address in use likely caused by vscode trying to add helpers (if u cancel this error will occur)
-
-        # next step is pagination
         
     except spotipy.client.SpotifyException as e:
         print("======ERROR======")
