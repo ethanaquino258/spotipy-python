@@ -19,8 +19,6 @@ def topTracks():
     results = client.current_user_top_tracks(limit=50,time_range=timeRange[timePicker])
 
     tracks = results['items']
-    results = client.next(results)
-    tracks.extend(tracks)
 
     uriList = []
 

@@ -20,8 +20,6 @@ def topArtists():
     results = client.current_user_top_artists(limit=50, time_range=timeRange[timePicker])
     
     artists = results['items']
-    results = client.next(results)
-    artists.extend(artists)
 
     print("the popularity metric ranges from 0-100, w/ 100 as the highest level of popularity attainable")
     
