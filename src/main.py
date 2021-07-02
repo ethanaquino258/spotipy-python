@@ -2,8 +2,8 @@ import spotipy
 import authentication
 from albums import savedAlbums
 from artists import topArtists, followedArtists
-from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks
-from playlists import userPlaylists
+from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks, genreSorting
+from playlists import playlistDataCollector, userPlaylists, writeToCSV
 from shows import savedShows
 
 def main():
@@ -22,6 +22,9 @@ def main():
             7. saved albums
             8. playlists
             9. saved shows
+            10. genreSorting
+            11. writeToCSV
+            12.playListDataCollector
         """)
 
         actions = {
@@ -33,17 +36,13 @@ def main():
             "6": followedArtists,
             "7": savedAlbums,
             "8": userPlaylists,
-            "9": savedShows
+            "9": savedShows,
+            "10": genreSorting,
+            "11": writeToCSV,
+            "12": playlistDataCollector
         }
 
         actions[actionItem]()
-
-        # right now the app seems to loop on itself as spotipy automatically assigns 127.0.0.1 as a local server, and i keep getting errors that the address is already in use
-        # ignore first part, address in use definitely occurs though
-        # somehow is solved by restarting computer and clearing safari cache. the former resets running processes and the latter allows you to hit the correct page
-        # address in use likely caused by vscode trying to add helpers (if u cancel this error will occur)
-
-        # next step is pagination
         
     except spotipy.client.SpotifyException as e:
         print("======ERROR======")

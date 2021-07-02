@@ -23,7 +23,7 @@ def authCode(scope):
 
         # sp = spotipy.Spotify(auth=token)
 
-        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=clientID, client_secret=clientSecret, redirect_uri=redirect_URI, scope=scope, username='aquinyo'))
+        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=clientID, client_secret=clientSecret, redirect_uri=redirect_URI, scope=scope, username=os.getenv('SPOTIFY_USERNAME')))
 
     except spotipy.client.SpotifyException as e:
         print("====AUTH ERROR====")
