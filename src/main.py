@@ -2,9 +2,10 @@ import spotipy
 import authentication
 from albums import savedAlbums
 from artists import topArtists, followedArtists
-from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks, genreSorting
-from playlists import playlistDataCollector, userPlaylists, writeToCSV
+from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks
+from playlists import userPlaylists
 from shows import savedShows
+from library import libraryRead, playlistByGenre
 
 def main():
     print("Hello!\nWelcome to my spotipy project")
@@ -22,9 +23,8 @@ def main():
             7. saved albums
             8. playlists
             9. saved shows
-            10. genreSorting
-            11. writeToCSV
-            12.playListDataCollector
+            10. write library to CSV
+            11. generate playlist for specific genre
         """)
 
         actions = {
@@ -37,9 +37,8 @@ def main():
             "7": savedAlbums,
             "8": userPlaylists,
             "9": savedShows,
-            "10": genreSorting,
-            "11": writeToCSV,
-            "12": playlistDataCollector
+            "10": libraryRead,
+            "11": playlistByGenre
         }
 
         actions[actionItem]()

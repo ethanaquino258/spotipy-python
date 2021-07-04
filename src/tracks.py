@@ -1,6 +1,4 @@
 from authentication import authCode
-import spotipy
-import time
 
 def topTracks():
     timePicker = input("""Please choose a time range 
@@ -88,52 +86,3 @@ def recentlyPlayedTracks():
         print(f'{artist} - {songName}')
 
     exit()
-
-def genreSorting():
-    start = time.time()
-    client = authCode("user-library-read")
-    results = client.current_user_saved_tracks()
-
-    genreList = []
-    sortedGenres = []
-    songList = []
-    userLibrary = []
-
-    tracks = results['items']
-
-    while results['next']:
-        results = client.next(results)
-        tracks.extend(results['items'])
-
-        for item in tracks:
-            song = {}
-            itemTrack = item['track']
-            artist = itemTrack['artists'][0]['id']
-            artistResult = client.artist(artist)
-
-            genres = artistResult['genres']
-
-            song['name'] = itemTrack['name']
-            song['id'] = itemTrack['id']
-            song['artist'] = itemTrack['artists'][0]['name']
-            song['genres'] = genres
-            songList.append(song)
-
-
-    for song in songList:
-        for category in song['genres']:
-            if genreList.__contains__(category):
-                continue
-            else:
-                genreList.append(category)
-
-    # for song in songList:
-    #     name = song['name']
-    #     artist = song['artist']
-    #     genre = song['genres']
-    #     print('++++++++++++++++++')
-    #     print(f'{name} by {artist}\n Genres: {genre}')
-
-    for idx, genre in enumerate(genreList):
-        print(f'{idx+1}. {genre}')
-    

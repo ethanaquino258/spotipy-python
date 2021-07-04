@@ -2,7 +2,7 @@
 # display all possible genres to user (maybe too much?), take input string for filter xxxx
 import pandas as pd
 
-songs = pd.read_csv("genreSorter.csv")
+songs = pd.read_csv("user-library.csv")
 
 # print(songs)
 
@@ -13,6 +13,7 @@ desiredGenre = input("\nPlease enter the name of the genre you'd like to filter 
 rslt_df = df.loc[df['genres'].str.contains(desiredGenre)]
 
 print(rslt_df)
+print(len(rslt_df))
 
 if len(rslt_df) < 1:
     print("\ngenre not found!\n")
@@ -23,4 +24,4 @@ uriList = []
 for index, row in rslt_df.iterrows():
     uriList.append(row['uri'])
 
-print(len(uriList))
+# print(len(uriList))

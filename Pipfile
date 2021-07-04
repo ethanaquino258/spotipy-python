@@ -8,6 +8,7 @@ spotipy = "*"
 python-dotenv = "*"
 autopep8 = "*"
 pandas = "*"
+numpy = "*"
 
 [dev-packages]
 

@@ -11,6 +11,7 @@ def authCode(scope):
     clientID = os.getenv('SPOTIFY_CLIENT_ID')
     clientSecret = os.getenv('SPOTIFY_CLIENT_SECRET')
     redirect_URI = os.getenv('REDIRECT_URI')
+    userName = os.getenv('SPOTIFY_USERNAME')
     
     # scope = "user-library-read user-read-recently-played user-top-read"
 
@@ -23,7 +24,7 @@ def authCode(scope):
 
         # sp = spotipy.Spotify(auth=token)
 
-        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=clientID, client_secret=clientSecret, redirect_uri=redirect_URI, scope=scope, username=os.getenv('SPOTIFY_USERNAME')))
+        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=clientID, client_secret=clientSecret, redirect_uri=redirect_URI, scope=scope, username=userName))
 
     except spotipy.client.SpotifyException as e:
         print("====AUTH ERROR====")
