@@ -78,7 +78,7 @@ def playlistByGenre():
 
     desiredGenre = input("""
     Please enter the name of the genre you'd like to make a playlist for:
-    (see user-library-genre-details.csv for list of genres in your library)
+    (see user-genres.csv for list of genres in your library)
     """)
 
     rslt_df = df.loc[df['genres'].str.contains(desiredGenre)]
