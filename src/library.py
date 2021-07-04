@@ -57,7 +57,7 @@ def libraryRead():
         genreObj = {'genre': genre, 'occurences': len(rslt_df)}
         genreDict.append(genreObj)
 
-    with open('user-library-genre-details.csv', 'w', newline='') as csvfile:
+    with open('user-genres.csv', 'w', newline='') as csvfile:
         fieldnames = ['genre', 'number of occurences']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
@@ -68,8 +68,13 @@ def libraryRead():
 def playlistByGenre():
     client = authCode("playlist-modify-public")
 
-    songs = pd.read_csv("user-library.csv")
-    df = pd.DataFrame(data=songs)
+    try:
+        songs = pd.read_csv("user-library.csv")
+        df = pd.DataFrame(data=songs)
+    except:
+        print("Library file not found. Creating now...")
+        libraryRead()
+        playlistByGenre()
 
     desiredGenre = input("""
     Please enter the name of the genre you'd like to make a playlist for:
@@ -94,7 +99,7 @@ def playlistByGenre():
     # spotify limits amount of tracks you can add per request to 100 max; this is a 'paginator' of sorts
     if len(uriList) > 100:
         sections = len(uriList)//100
-        
+
         splitList = numpy.array_split(uriList, sections + 1)
 
         for arry in splitList:
