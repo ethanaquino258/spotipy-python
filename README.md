@@ -4,7 +4,7 @@ This program gathers and processes user information from Spotify. The UI and fun
 
 # What you'll need
 1. A Spotify account
-2. python 3 or later (earlier versions of python may work as well but I haven't looked into it)
+2. python 3 or later (earlier versions of python may work as well but I haven't looked into it). Instructions for python3 download [here](https://docs.python-guide.org/starting/install3/osx/)
 3. pipenv (you can get pipenv if you have python by running `pip install pipenv`)
 
 # Getting Started
