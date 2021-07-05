@@ -22,3 +22,5 @@ REDIRECT_URI="http://localhost:8080/callback/"
 5. Run `pipenv install` to download all dependencies
 6. Run `pipenv run python src/main.py`
 
+**NOTE:** Once you have your first successful run, you should edit `.gitignore` to include the `.cache-[your username]` file, as this file contains access token information
+
