@@ -108,3 +108,5 @@ def playlistByGenre():
                 smallerList.append(item)
 
             client.user_playlist_add_tracks(user['id'], newPlaylistID, smallerList)
+    else:
+        client.user_playlist_add_tracks(user['id'], newPlaylistID, uriList)
