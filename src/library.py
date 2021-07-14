@@ -31,11 +31,11 @@ def libraryRead():
 
         timeAdded = item['added_at'][:-1]
 
-        itemTime = datetime.strptime(timeAdded, "%Y-%m-%dT%H:%M:%S")
+        # itemTime = datetime.strptime(timeAdded, "%Y-%m-%dT%H:%M:%S")
 
-        print(itemTime < mostRecent)
-        if itemTime < mostRecent:
-            break
+        # print(itemTime < mostRecent)
+        # if itemTime < mostRecent:
+        #     break
 
         trackObj = item['track']
         for artist in trackObj['artists']:
@@ -50,13 +50,11 @@ def libraryRead():
         trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'], 'artists': artistList, 'genres': genreList, 'time added': timeAdded}
         songsDict.append(trackItem)
 
-    with open('user-library.csv', 'a', newline='') as csvfile:
+    with open('user-library.csv', 'W', newline='') as csvfile:
         fieldnames = ['name', 'artists', 'genres', 'uri', 'time added']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        if not header:
-            writer.writeheader()
-
+        writer.writeheader()
         for entry in songsDict:
             writer.writerow({'name': entry['name'], 'artists': entry['artists'], 'genres': entry['genres'], 'uri': entry['uri'], 'time added': entry['time added']})
 
