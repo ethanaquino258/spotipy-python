@@ -5,6 +5,14 @@ import pandas as pd
 import numpy
 
 def libraryRead():
+    with open('user-library.csv', newline='') as readfile:
+        fileReader = csv.reader(readfile)
+        
+        header = next(fileReader)
+        firstLine = next(fileReader)
+
+        mostRecent = datetime.strptime(firstLine[-1], "%Y-%m-%dT%H:%M:%S")
+
     client = authCode("user-library-read")
     results = client.current_user_saved_tracks()
 
@@ -25,6 +33,10 @@ def libraryRead():
 
         itemTime = datetime.strptime(timeAdded, "%Y-%m-%dT%H:%M:%S")
 
+        print(itemTime < mostRecent)
+        if itemTime < mostRecent:
+            break
+
         trackObj = item['track']
         for artist in trackObj['artists']:
             artistList.append(artist['name'])
@@ -35,14 +47,16 @@ def libraryRead():
             for genre in artistResult['genres']:
                 overallGenres.add(genre)
         
-        trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'], 'artists': artistList, 'genres': genreList, 'time added': itemTime}
+        trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'], 'artists': artistList, 'genres': genreList, 'time added': timeAdded}
         songsDict.append(trackItem)
 
-    with open('user-library.csv', 'w', newline='') as csvfile:
+    with open('user-library.csv', 'a', newline='') as csvfile:
         fieldnames = ['name', 'artists', 'genres', 'uri', 'time added']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        writer.writeheader()
+        if not header:
+            writer.writeheader()
+
         for entry in songsDict:
             writer.writerow({'name': entry['name'], 'artists': entry['artists'], 'genres': entry['genres'], 'uri': entry['uri'], 'time added': entry['time added']})
 
