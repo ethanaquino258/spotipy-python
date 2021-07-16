@@ -91,34 +91,40 @@ def playlistByGenre():
     desiredGenre = input("""
     Please enter the name of the genre you'd like to make a playlist for:
     (see user-genres.csv for list of genres in your library)
+
+    For multiple genres in different playlists, separate using *
+    Do not add a space after the asterisk
     """)
 
-    rslt_df = df.loc[df['genres'].str.contains(desiredGenre)]
+    genres = desiredGenre.split('*')
 
-    if len(rslt_df) < 1:
-        print("\ngenre not found!\n")
-        exit
+    for genre in genres:
+        rslt_df = df.loc[df['genres'].str.contains(genre)]
 
-    uriList = []
+        if len(rslt_df) < 1:
+            print("\ngenre not found!\n")
+            exit
 
-    for index, row in rslt_df.iterrows():
-        uriList.append(row['uri'])
+        uriList = []
 
-    user = client.me()
-    createResults = client.user_playlist_create(user['id'], desiredGenre)
-    newPlaylistID = createResults['id']
+        for index, row in rslt_df.iterrows():
+            uriList.append(row['uri'])
 
-    # spotify limits amount of tracks you can add per request to 100 max; this is a 'paginator' of sorts
-    if len(uriList) > 100:
-        sections = len(uriList)//100
+        user = client.me()
+        createResults = client.user_playlist_create(user['id'], genre)
+        newPlaylistID = createResults['id']
 
-        splitList = numpy.array_split(uriList, sections + 1)
+        # spotify limits amount of tracks you can add per request to 100 max; this is a 'paginator' of sorts
+        if len(uriList) > 100:
+            sections = len(uriList)//100
 
-        for arry in splitList:
-            smallerList = []
-            for item in arry:
-                smallerList.append(item)
+            splitList = numpy.array_split(uriList, sections + 1)
 
-            client.user_playlist_add_tracks(user['id'], newPlaylistID, smallerList)
-    else:
-        client.user_playlist_add_tracks(user['id'], newPlaylistID, uriList)
+            for arry in splitList:
+                smallerList = []
+                for item in arry:
+                    smallerList.append(item)
+
+                client.user_playlist_add_tracks(user['id'], newPlaylistID, smallerList)
+        else:
+            client.user_playlist_add_tracks(user['id'], newPlaylistID, uriList)
