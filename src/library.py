@@ -42,15 +42,24 @@ def libraryRead():
             artistList.append(artist['name'])
 
             artistResult = client.artist(artist['id'])
-            genreList.append(artistResult['genres'])
 
-            for genre in artistResult['genres']:
+            # if artist['name'] == 'Iwalani Kahalewai':
+            #     print(artistResult['genres'])
+            if artistResult['genres'] == []:
+                genreResult = 'no genre'
+            else:
+                genreResult = artistResult['genres']
+
+            genreList.append(genreResult)
+
+        for genreArray in genreList:
+            for genre in genreArray:
                 overallGenres.add(genre)
         
         trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'], 'artists': artistList, 'genres': genreList, 'time added': timeAdded}
         songsDict.append(trackItem)
 
-    with open('user-library.csv', 'W', newline='') as csvfile:
+    with open('user-library.csv', 'w', newline='') as csvfile:
         fieldnames = ['name', 'artists', 'genres', 'uri', 'time added']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
