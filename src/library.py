@@ -4,14 +4,26 @@ import csv
 import pandas as pd
 import numpy
 
-def libraryRead():
-    with open('user-library.csv', newline='') as readfile:
-        fileReader = csv.reader(readfile)
-        
-        header = next(fileReader)
-        firstLine = next(fileReader)
 
-        mostRecent = datetime.strptime(firstLine[-1], "%Y-%m-%dT%H:%M:%S")
+def multiples(count):
+    multipleList = []
+    intendedRange = count//100
+    for i in range(intendedRange):
+        multipleList.append(i*100)
+    return multipleList
+
+
+def libraryRead():
+    try:
+        with open('user-library.csv', newline='') as readfile:
+            fileReader = csv.reader(readfile)
+
+            header = next(fileReader)
+            firstLine = next(fileReader)
+
+            mostRecent = datetime.strptime(firstLine[-1], "%Y-%m-%dT%H:%M:%S")
+    except FileNotFoundError:
+        pass
 
     client = authCode("user-library-read")
     results = client.current_user_saved_tracks()
@@ -21,11 +33,19 @@ def libraryRead():
     while results['next']:
         results = client.next(results)
         tracks.extend(results['items'])
-    
+
+    trackTotal = len(tracks)
+    print(f'**{trackTotal} tracks compiled. Analyzing (this could take a while)...**')
+
     songsDict = []
     overallGenres = set()
 
+    trackCounter = 0
+    progressMarkers = multiples(trackTotal)
+
     for item in tracks:
+        if trackCounter in progressMarkers:
+            print(f'{trackCounter}/{trackTotal} analyzed...')
         artistList = []
         genreList = []
 
@@ -55,17 +75,24 @@ def libraryRead():
         for genreArray in genreList:
             for genre in genreArray:
                 overallGenres.add(genre)
-        
-        trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'], 'artists': artistList, 'genres': genreList, 'time added': timeAdded}
-        songsDict.append(trackItem)
 
-    with open('user-library.csv', 'w', newline='') as csvfile:
+        trackItem = {'uri': trackObj['uri'], 'name': trackObj['name'],
+                     'artists': artistList, 'genres': genreList, 'time added': timeAdded}
+        songsDict.append(trackItem)
+        trackCounter += 1
+
+    print('**Done! Writing to file now**')
+
+    with open('user-library.csv', 'w', newline='', encoding='utf-8') as csvfile:
         fieldnames = ['name', 'artists', 'genres', 'uri', 'time added']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         for entry in songsDict:
-            writer.writerow({'name': entry['name'], 'artists': entry['artists'], 'genres': entry['genres'], 'uri': entry['uri'], 'time added': entry['time added']})
+            writer.writerow({'name': entry['name'], 'artists': entry['artists'],
+                            'genres': entry['genres'], 'uri': entry['uri'], 'time added': entry['time added']})
+
+    print('**Track file written. Writing genres to file now')
 
     songs = pd.read_csv('user-library.csv')
     df = pd.DataFrame(data=songs)
@@ -84,7 +111,11 @@ def libraryRead():
 
         writer.writeheader()
         for entry in genreDict:
-            writer.writerow({'genre': entry['genre'], 'number of occurences': entry['occurences']})
+            writer.writerow(
+                {'genre': entry['genre'], 'number of occurences': entry['occurences']})
+
+    print('Done!')
+
 
 def playlistByGenre():
     client = authCode("playlist-modify-public")
@@ -134,6 +165,7 @@ def playlistByGenre():
                 for item in arry:
                     smallerList.append(item)
 
-                client.user_playlist_add_tracks(user['id'], newPlaylistID, smallerList)
+                client.user_playlist_add_tracks(
+                    user['id'], newPlaylistID, smallerList)
         else:
             client.user_playlist_add_tracks(user['id'], newPlaylistID, uriList)
