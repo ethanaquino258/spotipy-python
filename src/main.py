@@ -3,7 +3,7 @@ import authentication
 from albums import savedAlbums
 from artists import topArtists, followedArtists
 from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks
-from playlists import userPlaylists
+from playlists import findInPlaylists, userPlaylists
 from shows import savedShows
 from library import libraryRead, playlistByGenre
 
@@ -25,6 +25,7 @@ def main():
             9. saved shows
             10. write library to CSV
             11. generate playlist for specific genre
+            12. filter playlists by song
         """)
 
         actions = {
@@ -38,7 +39,8 @@ def main():
             "8": userPlaylists,
             "9": savedShows,
             "10": libraryRead,
-            "11": playlistByGenre
+            "11": playlistByGenre,
+            "12": findInPlaylists
         }
 
         actions[actionItem]()
