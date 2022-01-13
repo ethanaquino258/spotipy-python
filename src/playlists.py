@@ -13,15 +13,6 @@ def paginate():
 def compare(s1, s2):
     translator = str.maketrans('','', string.punctuation)
 
-    # haven't tried to see if this works and wondering if its worth doing
-    # theres remastered, mono, single, single edit, radio edit, album version, etc etc. Just a pain and while I'm assuming it's consistent I'm not sure
-    
-    # if 'Remastered' in s1:
-    #     print(s1)
-    #     remasteredIndex = s1.index('Remastered')
-    #     s1 = s1[:remasteredIndex+(len('Remastered'))]
-    #     print(s1)
-
     return s2.translate(translator).lower() in s1.translate(translator).lower()
 
 def multiples(count):
@@ -58,7 +49,6 @@ def findInPlaylists():
 
     results = client.current_user_playlists(limit=50)
 
-    # print(results['items'])
     print('gathering playlist data...')
 
     playlists = results['items']
@@ -106,7 +96,6 @@ def findInPlaylists():
                         print('================\n')
     except Exception as e:
         # issue with audio bites from spotify. Can ignore in an except statement centered on playlistItems for loop or try to address
-        # compare function not working with case sensitivity
         print(f'ERROR: {e}\n')
         print(total)
         print(playlistName)
