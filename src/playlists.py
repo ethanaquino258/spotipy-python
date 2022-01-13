@@ -22,7 +22,7 @@ def compare(s1, s2):
     #     s1 = s1[:remasteredIndex+(len('Remastered'))]
     #     print(s1)
 
-    return s1.translate(translator).lower() == s2.translate(translator).lower()
+    return s2.translate(translator).lower() in s1.translate(translator).lower()
 
 def multiples(count):
     multipleList = []
