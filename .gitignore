@@ -131,7 +131,6 @@ dmypy.json
 # vscode
 vscode/*
 
-.cache-aquinyo
-.cache-testerman
+.cache-*
 
 *.csv

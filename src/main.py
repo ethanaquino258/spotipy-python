@@ -3,7 +3,7 @@ import authentication
 from albums import savedAlbums
 from artists import topArtists, followedArtists
 from tracks import savedTracks, topTracks, currentTrack, recentlyPlayedTracks
-from playlists import findInPlaylists, userPlaylists
+from playlists import findInPlaylists, userPlaylists, playListShuffle
 from shows import savedShows
 from library import libraryRead, playlistByGenre
 
@@ -26,6 +26,7 @@ def main():
             10. write library to CSV
             11. generate playlist for specific genre
             12. filter playlists by song
+            13. shuffle playlists and choose random
         """)
 
         actions = {
@@ -40,7 +41,8 @@ def main():
             "9": savedShows,
             "10": libraryRead,
             "11": playlistByGenre,
-            "12": findInPlaylists
+            "12": findInPlaylists,
+            "13": playListShuffle
         }
 
         actions[actionItem]()

@@ -14,16 +14,15 @@ def multiples(count):
 
 
 def libraryRead():
-    try:
-        with open('user-library.csv', newline='') as readfile:
-            fileReader = csv.reader(readfile)
+    # try:
+    #     with open('user-library.csv', newline='') as readfile:
+    #         fileReader = csv.reader(readfile)
 
-            header = next(fileReader)
-            firstLine = next(fileReader)
-
-            mostRecent = datetime.strptime(firstLine[-1], "%Y-%m-%dT%H:%M:%S")
-    except FileNotFoundError:
-        pass
+    #         header = next(fileReader)
+    #         firstLine = next(fileReader)
+    #         mostRecent = datetime.strptime(firstLine[-1], "%Y-%m-%dT%H:%M:%S")
+    # except FileNotFoundError:
+    #     pass
 
     client = authCode("user-library-read")
     results = client.current_user_saved_tracks()

@@ -1,3 +1,4 @@
+import random
 from spotipy.client import Spotify
 from authentication import authCode
 import csv
@@ -104,3 +105,26 @@ def findInPlaylists():
         print(item)
         print(playlistItems)
         pass
+
+def playListShuffle():
+    client = authCode("playlist-read-private")
+
+    results = client.current_user_playlists()
+    playlists = []
+
+    while results['next']:
+        results = client.next(results)
+        playlists.extend(results['items'])
+
+    print(f'Total PLaylists: {len(playlists)}')
+
+    rng = random.randint(0, len(playlists))
+
+    print(f"Playlist #{rng}: {playlists[rng]['name']}")
+
+    # client.start_playback(context_uri=playlists[rng]['uri'])
+
+
+
+def randomizer():
+    client = authCode("playlist-modify-public")
